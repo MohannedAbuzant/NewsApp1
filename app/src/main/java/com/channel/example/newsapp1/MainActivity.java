@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
-    public String requestURL = "http://content.guardianapis.com/search?q=debates&api-key=test";
+    public String requestURL = "https://content.guardianapis.com/search?api-key=008f25be-16f5-43f4-98fd-da45aa5562fd";
     private NewsAdapter mAdapter;
     private static final int News_LOADER_ID = 1;
     private TextView mEmptyStateTextView;
