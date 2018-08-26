@@ -14,24 +14,29 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewsAdapter extends ArrayAdapter<News> {
     public NewsAdapter(@NonNull Context context, @NonNull ArrayList<News> NewsList){
         super(context,0,NewsList);
     }
     @Override
-    public View getView (int postition, View ConvertView, @NonNull ViewGroup parent){
-        if (ConvertView == null){
-            LayoutInflater.from(getContext()).inflate(R.layout.list_item,parent,false);
+    public View getView (int postition, View ConvertView, @NonNull ViewGroup parent) {
+
+        if (ConvertView == null) {
+            ConvertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
-        TextView articleTitle = ConvertView.findViewById(R.id.article_title);
-        TextView articleAuthor = ConvertView.findViewById(R.id.article_Author);
-        TextView articleDate = ConvertView.findViewById(R.id.date);
-        News currentNews = getItem(postition);
-        articleTitle.setText(currentNews.getTitle());
-        articleAuthor.setText(currentNews.getAuthor());
-        articleDate.setText(currentNews.getDate());
+
+            TextView articleTitle = ConvertView.findViewById(R.id.article_title);
+            TextView articleAuthor = ConvertView.findViewById(R.id.article_Author);
+            TextView articleDate = ConvertView.findViewById(R.id.date);
+            News currentNews = getItem(postition);
+            articleTitle.setText(currentNews.getTitle());
+            articleAuthor.setText(currentNews.getAuthor());
+            articleDate.setText(currentNews.getDate());
         return ConvertView;
-    }
+
+        }
+
 
 }
