@@ -51,8 +51,8 @@ public class QueryUtils {
 
     private static List<News> extractNewsFromJson(String jsonResponse) {
         String title;
-        String author;
         String date;
+        String Section;
         String urlSource;
         //Check for JSON is null
         if (TextUtils.isEmpty(jsonResponse)){
@@ -68,10 +68,11 @@ public class QueryUtils {
                 JSONObject currentArticle =currentNewsArticles.getJSONObject(i);
                 title= currentArticle.getString("webTitle");
                 urlSource=currentArticle.getString("webUrl");
-                date = currentArticle.getString("webpublicationDate");
-                JSONArray authorArray = currentArticle.getJSONArray("tags");
-
-            }
+                date = currentArticle.getString("webPublicationDate");
+                Section=currentArticle.getString("sectionId");
+                News news = new News(Section, title, date,urlSource);
+                myNews.add(news);
+                }
         }catch (JSONException je){
             Log.e(TAG,"extractNewsFromJson:Problem parsing results",je);
         }
@@ -101,7 +102,7 @@ public class QueryUtils {
             urlConnection = (HttpURLConnection)newsUrl.openConnection();
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("Get");
+            urlConnection.setRequestMethod("GET");
             urlConnection.connect();
             if (urlConnection.getResponseCode() == 200){
                 inputStream = urlConnection.getInputStream();
