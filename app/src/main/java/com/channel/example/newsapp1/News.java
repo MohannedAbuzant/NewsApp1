@@ -14,4 +14,3 @@ package com.channel.example.newsapp1;
         public String getTitle() {return  Title;}
         public String getUrl(){return Url;}
 }
-t
