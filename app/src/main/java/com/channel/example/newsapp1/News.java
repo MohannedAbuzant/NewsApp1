@@ -1,14 +1,16 @@
 package com.channel.example.newsapp1;
 
     public class News {
-        private String Title,Author,Date,Url;
+        private String Title,SectionID,Date,Url,Author;
 
-        public News(String ArticleTitle, String AuthorName, String ArticleDate, String Articleurl){
+        public News(String ArticleTitle, String Section, String ArticleDate, String Articleurl,String ArticleAuthor){
             Title=ArticleTitle;
-            Author=AuthorName;
+            SectionID=Section;
             Date=ArticleDate;
+            Author =ArticleAuthor;
             Url=Articleurl;
         }
+        public String getSectionID(){return SectionID;}
         public String getAuthor(){return Author;}
         public String  getDate (){return Date;}
         public String getTitle() {return  Title;}
