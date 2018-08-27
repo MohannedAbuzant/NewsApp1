@@ -1,4 +1,4 @@
-package com.channel.example.newsapp1;
+package  com.channel.example.newsapp1;
 
 import android.app.LoaderManager;
 import android.content.Context;
@@ -14,11 +14,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+    import com.channel.example.newsapp1.News;
+import com.channel.example.newsapp1.NewsAdapter;
+import com.channel.example.newsapp1.NewsLoader;
+import com.channel.example.newsapp1.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
-    public String requestURL = "https://content.guardianapis.com/search?api-key=008f25be-16f5-43f4-98fd-da45aa5562fd";
+//    public String requestURL = "https://content.guardianapis.com/search?api-key=008f25be-16f5-43f4-98fd-da45aa5562fd";
+
+    public String requestURL =
+            "https://content.guardianapis.com/search?q=debate%20AND%20(economy%20OR%20immigration%20education)&tag=politics/politics&from-date=2018-01-01&to-date=2018-06-01&page-size=100&show-tags=contributor&show-fields=trailText,headline,thumbnail,shortUrl&api-key=008f25be-16f5-43f4-98fd-da45aa5562fd";
     private NewsAdapter mAdapter;
     private static final int News_LOADER_ID = 1;
     private TextView mEmptyStateTextView;
@@ -109,6 +117,5 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
     }
 }
-
 
 
