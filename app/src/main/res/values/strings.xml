@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">NewsApp1</string>
+        <string name="app_name">NewsApp1</string>
     <string name="nonews">No news</string>
     <string name="noconnection">no internet connection please Check your Connection</string>
-    <string name="noNews">No News Please check your WIFI or DATA then reload the app</string>
+    <string name="noNews">No news found right now. Please come back later and try again".</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">Earthquake Settings</string>
 </resources>
+
