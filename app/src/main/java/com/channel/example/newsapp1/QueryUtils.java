@@ -27,78 +27,60 @@ import java.util.WeakHashMap;
 public class QueryUtils {
     private  static final String TAG=QueryUtils.class.getSimpleName();
     private  QueryUtils(){}
-        public static  List<News> fetchNewsData(String requstedUrl){
-            try {
-                Thread.sleep(1000);
-            }catch (InterruptedException ie) {
-                Log.e(TAG,"fetchNewsData: Interrupted",ie);
-            }
-            //Create URL
-            URL newsUrl = createUrl(requstedUrl);
-            //Perform httpRequest
-            String jsonResponse= null;
-            try {
-                jsonResponse = makeHttpRequest(newsUrl);
-            }catch (IOException ioe){
-                Log.e(TAG,"fetchNewsData: Problem making HTTP request",ioe);
-            }
-            //Extract relevant data
-            List<News> myNews = extractNewsFromJson(jsonResponse);
-            return myNews;
+    public static  List<News> fetchNewsData(String requstedUrl){
+        try {
+            Thread.sleep(1000);
+        }catch (InterruptedException ie) {
+            Log.e(TAG,"fetchNewsData: Interrupted",ie);
+        }
+        //Create URL
+        URL newsUrl = createUrl(requstedUrl);
+        //Perform httpRequest
+        String jsonResponse= null;
+        try {
+            jsonResponse = makeHttpRequest(newsUrl);
+        }catch (IOException ioe){
+            Log.e(TAG,"fetchNewsData: Problem making HTTP request",ioe);
+        }
+        //Extract relevant data
+        List<News> myNews = extractNewsFromJson(jsonResponse);
+        return myNews;
 
 
     }
 
     private static List<News> extractNewsFromJson(String jsonResponse) {
-
+        String title;
+        String date;
+        String contributor = "";
+        String urlSource;
         //Check for JSON is null
         if (TextUtils.isEmpty(jsonResponse)){
             return null;
         }
         List<News> myNews= new ArrayList<>();
         try {
-            JSONObject jsonObj = new JSONObject(jsonResponse);
-            JSONObject response = jsonObj.getJSONObject("response");
-            JSONArray results =  response.getJSONArray("results");
-            int length = results.length();
-
-            for (int i =0 ; i<length ;i++){
-                JSONObject obj = results.getJSONObject(i);
-
-                // Extract the value for the key called "section name"
-                String section = obj.getString("sectionName");
-
-                // Extract the value for the key called "webPublicationDate"
-                // if there is no date found will show the news but with out the date
-                String date ="";
-                if (obj.has("webPublicationDate")){
-                    date = obj.getString("webPublicationDate");
+            JSONObject baseJSONResponse = new JSONObject(jsonResponse);
+            JSONObject baseJSONResponseResult = baseJSONResponse.getJSONObject("response");
+            JSONArray currentNewsArticles = baseJSONResponseResult.getJSONArray("results");
+            //make items
+            for (int i =0 ; i<currentNewsArticles.length();i++){
+                JSONObject currentArticle =currentNewsArticles.getJSONObject(i);
+                title= currentArticle.getString("webTitle");
+                urlSource=currentArticle.getString("webUrl");
+                date = currentArticle.getString("webPublicationDate");
+                JSONArray tagContributor = currentArticle.getJSONArray("tags");
+                if(tagContributor.length() != 0){
+                    JSONObject jsonObj = tagContributor.getJSONObject(0);
+                    contributor = jsonObj.getString("webTitle");
+                } else {
+                    contributor = "empty";
                 }
 
-                // Extract the value for the key called "webTitle"
-                String title = obj.getString("webTitle");
 
-                // Extract the value for the key called "url"
-                String url = obj.getString("webUrl");
-
-                // Extract the value for the key called "trailText"
-                JSONObject fields = obj.getJSONObject("fields");
-                String trailText = fields.getString("trailText");
-
-                String authorName = "";
-                JSONArray tags = obj.getJSONArray("tags");
-                if (tags.length()!=0){
-                    JSONObject author = tags.getJSONObject(0);
-                    if(author.has("webTitle")){
-                        authorName = author.getString("webTitle");
-                    }
-                }
-
-                // Create a new {@link News} object with the section , title
-                // and url from the JSON response.
-                News news = new News(authorName, title, date,url);
+                News news = new News(contributor, title, date,urlSource);
                 myNews.add(news);
-                }
+            }
         }catch (JSONException je){
             Log.e(TAG,"extractNewsFromJson:Problem parsing results",je);
         }
@@ -169,5 +151,3 @@ public class QueryUtils {
 
 
 }
-
-
