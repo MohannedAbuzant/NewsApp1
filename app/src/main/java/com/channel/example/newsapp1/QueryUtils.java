@@ -53,6 +53,7 @@ public class QueryUtils {
         String title;
         String date;
         String contributor = "";
+        String Section;
         String urlSource;
         //Check for JSON is null
         if (TextUtils.isEmpty(jsonResponse)){
@@ -70,6 +71,7 @@ public class QueryUtils {
                 urlSource=currentArticle.getString("webUrl");
                 date = currentArticle.getString("webPublicationDate");
                 JSONArray tagContributor = currentArticle.getJSONArray("tags");
+                Section=currentArticle.getString("sectionId");
                 if(tagContributor.length() != 0){
                     JSONObject jsonObj = tagContributor.getJSONObject(0);
                     contributor = jsonObj.getString("webTitle");
@@ -78,7 +80,7 @@ public class QueryUtils {
                 }
 
 
-                News news = new News(contributor, title, date,urlSource);
+                News news = new News(contributor,Section,date, urlSource,title);
                 myNews.add(news);
             }
         }catch (JSONException je){
